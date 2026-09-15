@@ -1,0 +1,54 @@
+name: Feature request
+description: Suggest an improvement or a new capability.
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight
+      options:
+        - label: I searched existing issues and discussions first.
+          required: true
+        - label: This fits the project's local-first, no-third-party-server design.
+          required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the situation you're in, not just the solution.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Including any workaround you currently use.
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Which area?
+      multiple: true
+      options:
+        - Extraction
+        - Export / .ics
+        - Google Calendar sync
+        - Popup UI
+        - Options / settings
+        - Paging / date presets
+        - Notifications
+        - Accessibility / theming
+        - Build / tooling
+        - Documentation
+    validations:
+      required: true

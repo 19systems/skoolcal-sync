@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Skool.com
+METHOD:REQUEST
+BEGIN:VEVENT
+UID:9ce0133fb8994601aabeae55fac13b371790530200
+DTSTART:20260927T173000Z
+DTEND:20260927T180000Z
+SUMMARY:Email/website Support call
+DESCRIPTION:Having issues setting up your website or email? Emails landing
+  in spam? 😤\n\nThis call is designed to get you unstuck fast.\n\n📌
+  What we’ll cover:\n	•	Website setup\n	•	Email setup (sending
+  domain\, DNS\, warm-up help)\n	•	Troubleshooting common tech
+  issues\n	•	Fixing spam delivery problems\n\nFrom: The IMA Accelerator
+LOCATION:https://meet.google.com/hwk-vnij-fgd
+END:VEVENT
+END:VCALENDAR

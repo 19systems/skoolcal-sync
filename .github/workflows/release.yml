@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install
+        run: npm install --no-audit --no-fund
+
+      - name: Install optional jsdom
+        run: npm install --no-save --no-audit --no-fund jsdom
+
+      - name: Full check
+        run: npm run check
+
+      - name: Verify manifest version matches the tag
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          VERSION=$(node -p "require('./manifest.json').version")
+          if [ "$TAG" != "$VERSION" ]; then
+            echo "::error::tag v$TAG does not match manifest.json version $VERSION"
+            echo "Bump the version in manifest.json (and package.json) before tagging."
+            exit 1
+          fi
+          echo "Version $VERSION matches tag."
+
+      - name: Build and package
+        run: npm run package
+
+      - name: Validate built manifests
+        run: npm run validate
+
+      - name: Firefox store validator (web-ext lint)
+        run: npx --yes web-ext@latest lint --source-dir dist/firefox
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/skoolcal-sync-chrome.zip
+            dist/skoolcal-sync-firefox.zip
+          generate_release_notes: true
+          draft: false
+          fail_on_unmatched_files: true

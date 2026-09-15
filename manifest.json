@@ -1,0 +1,90 @@
+{
+  "manifest_version": 3,
+  "name": "SkoolCal Sync",
+  "version": "1.0.0",
+  "description": "Extract every event from Skool community calendars. Export one .ics for all, individual .ics files, or sync straight to Google Calendar.",
+  "minimum_chrome_version": "111",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "SkoolCal Sync",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "permissions": [
+    "storage",
+    "identity",
+    "notifications",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://skool.com/*",
+    "https://*.skool.com/*",
+    "https://www.googleapis.com/*",
+    "https://oauth2.googleapis.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://skool.com/*",
+        "https://*.skool.com/*"
+      ],
+      "js": [
+        "lib/browser.js",
+        "lib/constants.js",
+        "lib/datetime.js",
+        "lib/daterange.js",
+        "lib/ics.js",
+        "lib/events.js",
+        "lib/storage.js",
+        "lib/messaging.js",
+        "content/network-capture.js",
+        "content/extract.js",
+        "content/month-nav.js",
+        "content/overlay.js",
+        "content/content.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false
+    },
+    {
+      "matches": [
+        "https://skool.com/*",
+        "https://*.skool.com/*"
+      ],
+      "js": [
+        "content/injected.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN",
+      "all_frames": false
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "content/injected.js"
+      ],
+      "matches": [
+        "https://skool.com/*",
+        "https://*.skool.com/*"
+      ]
+    }
+  ]
+}

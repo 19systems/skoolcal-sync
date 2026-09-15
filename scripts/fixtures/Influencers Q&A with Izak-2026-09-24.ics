@@ -1,0 +1,14 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Skool.com
+METHOD:REQUEST
+BEGIN:VEVENT
+UID:2e73ffbb2a7f45fb9bdd07e69f210d741790247600
+DTSTART:20260924T110000Z
+DTEND:20260924T120000Z
+SUMMARY:Influencers Q&A with Izak
+DESCRIPTION:Got questions? Come ask them and get answers live!\n\nFrom: The
+  IMA Accelerator
+LOCATION:https://meet.google.com/vto-kooo-dem
+END:VEVENT
+END:VCALENDAR

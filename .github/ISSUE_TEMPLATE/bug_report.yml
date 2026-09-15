@@ -1,0 +1,101 @@
+name: Bug report
+description: Report something that isn't working as expected.
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Extraction issues are almost always caused by a
+        change on Skool's side, so the more markup/payload detail you can share
+        the faster this gets fixed.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight
+      options:
+        - label: I'm on the latest version of the extension.
+          required: true
+        - label: I reloaded the extension and refreshed the Skool tab after updating.
+          required: true
+        - label: I searched existing issues and this isn't a duplicate.
+          required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      options:
+        - Chrome
+        - Edge
+        - Brave
+        - Firefox
+        - Firefox for Android
+        - Other (note it below)
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Extension version
+      description: Shown at the bottom of the options page (Settings).
+      placeholder: "1.0.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: What is affected?
+      multiple: true
+      options:
+        - Extraction (wrong/missing events)
+        - Export to .ics
+        - Google Calendar sync
+        - Popup UI
+        - Options page
+        - Month paging / date presets
+        - Notifications
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open https://www.skool.com/<community>/calendar
+        2. Click the extension icon
+        3. Click "Export as one .ics"
+        4. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence (optional but very helpful)
+      description: |
+        - Event card or day cell `outerHTML` (right-click → Inspect → Copy outerHTML)
+        - The `pageProps` shape from `__NEXT_DATA__` (redact personal data)
+        - Popup warnings / the event count shown
+        - Console errors from the page, the popup, or the service worker
+          (chrome://extensions → service worker)
+      render: text
+
+  - type: markdown
+    attributes:
+      value: |
+        ⚠️ Please **redact personal information** (names, emails, meeting links,
+        community slugs) before pasting. Never paste OAuth tokens.

@@ -1,0 +1,15 @@
+# Editor / OS noise
+.DS_Store
+Thumbs.db
+
+# Dependencies (the extension itself has none at runtime)
+node_modules/
+
+# Build output — regenerate with `npm run build`
+dist/
+.web-ext-artifacts/
+*.xpi
+*.zip
+
+# Local scratch
+*.log

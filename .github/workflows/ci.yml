@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Node ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ["20", "22"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # The extension itself has no dependencies; this only installs dev tooling.
+      - name: Install
+        run: npm install --no-audit --no-fund
+
+      # Optional: enables the jsdom DOM-extraction suite. Without it, that suite
+      # skips itself and the rest of `npm test` still runs.
+      - name: Install optional jsdom
+        run: npm install --no-save --no-audit --no-fund jsdom
+
+      - name: Lint (syntax + manifest references)
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      - name: Build and package
+        run: npm run package
+
+      - name: Validate built manifests
+        run: npm run validate
+
+      - name: Firefox store validator (web-ext lint)
+        run: npx --yes web-ext@latest lint --source-dir dist/firefox
+
+      - name: Upload packaged extension
+        uses: actions/upload-artifact@v4
+        with:
+          name: skoolcal-sync-node${{ matrix.node-version }}
+          path: dist/*.zip
+          if-no-files-found: error
+          retention-days: 14

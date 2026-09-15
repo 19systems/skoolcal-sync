@@ -1,0 +1,43 @@
+{
+  "name": "skoolcal-sync",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cross-browser (Chrome + Firefox) extension that extracts every event from Skool.com community calendars and exports/syncs them as .ics or Google Calendar events.",
+  "type": "module",
+  "license": "MIT",
+  "author": "SkoolCal Sync contributors",
+  "homepage": "https://github.com/your-org/skoolcal-sync#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/skoolcal-sync.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/skoolcal-sync/issues"
+  },
+  "keywords": [
+    "browser-extension",
+    "manifest-v3",
+    "chrome-extension",
+    "firefox-addon",
+    "skool",
+    "calendar",
+    "ics",
+    "icalendar",
+    "google-calendar"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "icons": "node scripts/make-icons.mjs",
+    "lint": "node scripts/lint.mjs",
+    "lint:firefox": "npx --yes web-ext@latest lint --source-dir dist/firefox",
+    "test": "node scripts/test.mjs && node scripts/test-dom.mjs",
+    "check": "node scripts/lint.mjs && node scripts/test.mjs && node scripts/test-dom.mjs",
+    "validate": "node scripts/validate.mjs",
+    "package": "node scripts/build.mjs && node scripts/package.mjs",
+    "release": "node scripts/lint.mjs && node scripts/test.mjs && node scripts/build.mjs && node scripts/validate.mjs && node scripts/package.mjs",
+    "clean": "node -e \"import('node:fs').then(fs=>fs.rmSync('dist',{recursive:true,force:true}))\""
+  }
+}

@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Skool.com
+METHOD:REQUEST
+BEGIN:VEVENT
+UID:17865e3f980e49cfb3a52adcbde5a30a1790172000
+DTSTART:20260923T140000Z
+DTEND:20260923T150000Z
+SUMMARY:Student Success Breakdown
+DESCRIPTION:"Deal Breakdown & Strategy" Sessions - @Abu Numaan once a week
+  - Case studies of recent wins\, analysis of what worked\, and strategy
+  planning for your current Opportunities\n\nFrom: The IMA Accelerator
+LOCATION:https://meet.google.com/qem-opzv-cqc
+END:VEVENT
+END:VCALENDAR

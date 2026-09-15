@@ -1,0 +1,11 @@
+# Normalise line endings in the repo, but never in generated artifacts.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.ico binary
+*.zip binary
+*.xpi binary
+
+dist/** linguist-generated=true
+scripts/fixtures/*.ics linguist-vendored=true

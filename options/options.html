@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SkoolCal Sync — Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="page">
+    <header class="page-header">
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="5" width="18" height="16" rx="3" fill="currentColor" opacity=".18"/>
+          <rect x="3" y="5" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M3 9h18" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M7 3v4M17 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M8 13.5l2.2 2.2L16 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+        <div>
+          <h1>SkoolCal Sync</h1>
+          <p class="sub">Extract Skool community calendars into .ics files or Google Calendar.</p>
+        </div>
+      </div>
+      <span id="version" class="version"></span>
+    </header>
+
+    <!-- ================= Google Calendar ================= -->
+    <section class="card">
+      <div class="card-head">
+        <h2>Google Calendar</h2>
+        <span id="google-status" class="pill">Not connected</span>
+      </div>
+      <p class="muted">
+        Syncing uses your own Google OAuth client, so no third-party server ever sees your data.
+        Create an OAuth client once and paste its ID below.
+      </p>
+
+      <div class="field">
+        <label for="client-id">OAuth Client ID</label>
+        <input id="client-id" class="input" type="text" placeholder="1234567890-xxxxxxxx.apps.googleusercontent.com" spellcheck="false" autocomplete="off">
+      </div>
+
+      <div class="field">
+        <label>Authorised redirect URI <span class="muted">(paste this into Google Cloud Console)</span></label>
+        <div class="copy-row">
+          <input id="redirect-uri" class="input mono" type="text" readonly>
+          <button id="copy-redirect" class="btn">Copy</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="calendar-id">Target calendar ID</label>
+        <input id="calendar-id" class="input mono" type="text" placeholder="primary">
+        <span class="hint">Use <code>primary</code> for your main calendar, or the long ID of a specific calendar.</span>
+      </div>
+
+      <div class="row">
+        <button id="connect" class="btn btn-primary">Connect Google Calendar</button>
+        <button id="disconnect" class="btn" hidden>Disconnect</button>
+        <span id="google-email" class="muted"></span>
+      </div>
+
+      <details class="details">
+        <summary>How to create the OAuth client (step by step)</summary>
+        <ol class="steps">
+          <li>Open <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noreferrer">Google Cloud Console → Credentials</a>.</li>
+          <li>Enable the <a href="https://console.cloud.google.com/apis/library/calendar-json.googleapis.com" target="_blank" rel="noreferrer">Google Calendar API</a>.</li>
+          <li>Configure the OAuth consent screen (External, then add yourself as a test user).</li>
+          <li>Create credentials → <strong>OAuth client ID</strong> → application type <strong>Web application</strong>.</li>
+          <li>Under <strong>Authorised redirect URIs</strong>, add the redirect URI shown above.</li>
+          <li>Copy the generated client ID into the field above and click Connect.</li>
+        </ol>
+        <p class="muted small">The redirect URI is unique to your browser profile. Re-copy it if you reinstall the extension.</p>
+      </details>
+    </section>
+
+    <!-- ================= Communities ================= -->
+    <section class="card">
+      <div class="card-head">
+        <h2>Communities</h2>
+        <span id="tier-pill" class="pill">Free</span>
+      </div>
+      <p class="muted">SkoolCal Sync remembers the communities you scan so their events stay available in the popup.</p>
+
+      <div id="community-list" class="community-list"></div>
+
+      <div class="row add-row">
+        <input id="new-community" class="input" type="text" placeholder="Community slug (e.g. my-community)" autocomplete="off">
+        <button id="add-community" class="btn btn-primary">Add</button>
+      </div>
+
+      <div id="tier-note" class="note" hidden>
+        <div>
+          <strong>Free plan:</strong> 1 community. Pro unlocks unlimited communities and series collapsing.
+        </div>
+      </div>
+      <div class="row" id="pro-row">
+        <input id="license-key" class="input" type="text" placeholder="Licence key" autocomplete="off">
+        <button id="activate-pro" class="btn">Activate Pro</button>
+      </div>
+    </section>
+
+    <!-- ================= Extraction ================= -->
+    <section class="card">
+      <h2>Extraction</h2>
+
+      <label class="toggle">
+        <input id="auto-extract" type="checkbox">
+        <span><strong>Auto-scan calendar pages</strong><br><span class="muted small">Detect and extract as soon as you open a community calendar.</span></span>
+      </label>
+
+      <label class="toggle">
+        <input id="capture-network" type="checkbox">
+        <span><strong>Read Skool's calendar API responses</strong><br><span class="muted small">Most reliable source. Only observes requests the page already makes.</span></span>
+      </label>
+
+      <label class="toggle">
+        <input id="fetch-ics" type="checkbox">
+        <span><strong>Fetch each event's .ics file</strong><br><span class="muted small">Gives exact times, descriptions and meeting links — the same file Skool's download button produces.</span></span>
+      </label>
+
+      <label class="toggle">
+        <input id="collapse-series" type="checkbox">
+        <span><strong>Collapse repeating events into one series</strong><br><span class="muted small">Skool exports every occurrence separately. Enable to infer a weekly/monthly rule instead.</span></span>
+      </label>
+
+      <div class="field inline">
+        <label for="auto-load-months">Maximum months to page</label>
+        <input id="auto-load-months" class="input number" type="number" min="0" max="24" step="1">
+        <span class="hint">Safety cap. The extension stays on the visible month unless the popup's date preset reaches a later month (e.g. “This year”), then it pages forward to reach it.</span>
+      </div>
+    </section>
+
+    <!-- ================= Notifications ================= -->
+    <section class="card">
+      <h2>Reminders</h2>
+      <label class="toggle">
+        <input id="notifications-enabled" type="checkbox">
+        <span><strong>Notify me before events start</strong><br><span class="muted small">Uses the events already stored on your device. No network requests.</span></span>
+      </label>
+      <div class="field inline">
+        <label for="notify-before">Minutes before</label>
+        <input id="notify-before" class="input number" type="number" min="1" max="120" step="1">
+        <button id="test-notification" class="btn">Send test</button>
+      </div>
+    </section>
+
+    <!-- ================= Data & privacy ================= -->
+    <section class="card">
+      <h2>Data &amp; privacy</h2>
+      <p class="muted">
+        Extraction happens entirely in your browser. Events are stored in this browser profile's local extension storage.
+        Nothing is sent anywhere unless you explicitly press <strong>Sync to Google Calendar</strong>, which talks directly
+        to Google's API using your own credentials. There is no analytics and no third-party server.
+      </p>
+      <div class="row">
+        <button id="clear-data" class="btn btn-danger">Clear cached events</button>
+        <span id="storage-info" class="muted small"></span>
+      </div>
+    </section>
+
+    <footer class="page-footer">
+      <span>SkoolCal Sync <span id="footer-version"></span></span>
+      <span class="muted small">Not affiliated with Skool.com.</span>
+    </footer>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="../lib/browser.js"></script>
+  <script src="../lib/constants.js"></script>
+  <script src="../lib/datetime.js"></script>
+  <script src="../lib/ics.js"></script>
+  <script src="../lib/events.js"></script>
+  <script src="../lib/storage.js"></script>
+  <script src="../lib/messaging.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

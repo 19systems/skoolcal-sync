@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Skool.com
+METHOD:REQUEST
+BEGIN:VEVENT
+UID:ea827f890a9045d4bc023d4bc2389c171790434800
+DTSTART:20260926T150000Z
+DTEND:20260926T160000Z
+SUMMARY:MINDSET MASTERCLASS W/$10M CEO
+DESCRIPTION:$10M CEO Fawaz is back again alhamdulilah to drop more
+  productivity gems and help you guys grow your mindset to reach your IMA
+  goals and more🔥🔥\n\nFrom: The IMA Accelerator
+LOCATION:https://us06web.zoom.us/j/83972784947?pwd=fWwgbOUvehqQGtcOnrv6cSiS
+  oUOpCl.1
+END:VEVENT
+END:VCALENDAR
